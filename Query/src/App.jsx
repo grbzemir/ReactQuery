@@ -23,8 +23,8 @@ function App() {
     userId: 1
   });
 
-  const { mutate, isLoading } = useMutation({
-    mutationKey: ['users'], (newPost) => {
+  const { data, mutate, isLoading } = useMutation({
+    mutationKey: ['users'],
     mutationFn: () => fetch('https://jsonplaceholder.org/users', {
       method: "POST",
       body: JSON.stringify(newPost),
@@ -34,7 +34,7 @@ function App() {
     }).then(response => response.json())
   });
 
-  console.log(mutateData, "mutateData");
+  console.log(data, "mutation Data");
 
   // console.log(data, isLoading, "fetchData");
 
@@ -45,17 +45,19 @@ function App() {
   return (
     <div>
       {/* <button onClick={() => refetch()}>Veri Çek</button> */}
-      <button onClick={() => { }}>Veri Çek</button>
+      <button onClick={() => mutate()} disabled={isLoading}>
+        {isLoading ? "Gönderiliyor..." : "Veri Gönder"}
+      </button>
+
       <div>
+        {/* Verileri ekrana listeleme */}
         {/* {data &&
-          data.map((dt, i) => {
-            return (
-              <div key={i}>
-                <h1>{dt.title}</h1>
-                <p>{dt.body}</p>
-              </div>
-            );
-          })} */}
+        data.map((dt, i) => (
+          <div key={i}>
+            <h1>{dt.title}</h1>
+            <p>{dt.body}</p>
+          </div>
+        ))} */}
       </div>
     </div>
   );
